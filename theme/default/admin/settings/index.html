@@ -1,0 +1,188 @@
+{extend name="public/base" /}
+{block name="title"}网站设置{/block}
+{block name="css"}{/block}
+{block name="js"}
+<script src="__PLUG__/layer/layer.js" type="text/javascript" charset="utf-8"></script>
+{/block}
+{block name="style"}{/block}
+{block name="body"}
+<div class="right-product view-product right-full">
+	<div class="container-fluid">
+		<div class="message-manage info-center">
+			<div class="page-header">
+				<div class="pull-left">
+					<h4>网站设置</h4>
+				</div>
+			</div>
+			<div class="manage-detail">
+				<h6 class="h5">网站基本信息设置,开发者调试时请打开调试模式,网站使用时请关闭调式模式&nbsp;&nbsp;&nbsp;注册访问控制可防止注册刷号和邮箱刷找回密码</h6>
+				<h6 class="h5" style="color: red;">注意：密文有效期,设为 0 侧密文永不失效，如有设置 0 以上，请保证服务器时间于客户端同步，或加大有效期解决解密失败.</h6>
+				<div class="margin-tb manage-detail-con clearfix">
+
+				</div>
+				<ul id="myTab" class="nav nav-tabs nav-div">
+					<li class="active">
+						<a href="#home" data-toggle="tab">基本设置</a>
+					</li>
+					<li>
+						<a href="#regs" data-toggle="tab">注册与访问控制</a>
+					</li>
+				</ul>
+				<form style="margin-top: 20px;" id="netform" class="form-horizontal" action="" method="post">
+					<div id="myTabContent" class="tab-content">
+						<div class="tab-pane fade in active" id="home">
+							<div class="form-group">
+								<label for="inputnetonoff" class="col-sm-2 col-md-2 col-lg-1 control-label">调试模式</label>
+								<div class="col-sm-2 col-lg-2">
+									<label class="radio-inline">
+                        <input type="radio" name="app_debug" id="inlineneton" value="TRUE" {if condition="config('app_debug') == TRUE"}checked{/if}> 开
+                    </label>
+									<label class="radio-inline">
+                        <input type="radio" name="app_debug" id="inlinenetoff" value="FALSE" {if condition="config('app_debug') == FALSE"}checked{/if}> 关
+                    </label>
+								</div>
+								
+							</div>
+							<div class="form-group">
+								<label for="inputnetonoff" class="col-sm-2 col-md-2 col-lg-1 control-label">网站开关</label>
+								<div class="col-sm-8">
+									<label class="radio-inline">
+                        <input type="radio" name="site_status" id="inlineneton" value="1" {if condition="config('global_config.site_status') == 1"}checked{/if}> 开
+                    </label>
+									<label class="radio-inline">
+                        <input type="radio" name="site_status" id="inlinenetoff" value="0" {if condition="config('global_config.site_status') == 0"}checked{/if}> 关
+                    </label>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="inputnetname" class="col-sm-2 col-md-2 col-lg-1 control-label">网站名称</label>
+								<div class="col-sm-8 col-md-5 col-lg-3">
+									<input type="text" name="site_name" class="form-control" id="inputname" placeholder="rain" value="{:$Think.config.global_config.site_name}" />
+								</div>
+							</div>							
+							<div class="form-group">
+								<label for="inputnetname" class="col-sm-2 col-md-2 col-lg-1 control-label">网站关键词</label>
+								<div class="col-sm-8 col-md-5 col-lg-3">
+									<input type="text" name="site_keyword" class="form-control" id="inputname" placeholder="验证,软件,应用" value="{:$Think.config.global_config.site_keyword}" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="inputdesc" class="col-sm-2 col-md-2 col-lg-1 control-label">网站描述</label>
+								<div class="col-sm-8 col-md-5 col-lg-3">
+									<textarea class="form-control textarea" rows="5" name="site_description" placeholder="rain网络验证">{:$Think.config.global_config.site_description}</textarea>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="inputnetname" class="col-sm-2 col-md-2 col-lg-1 control-label">版权信息</label>
+								<div class="col-sm-8 col-md-5 col-lg-3">
+									<input type="text" name="site_copyright" class="form-control" id="inputname" placeholder="Rain版权所有" value="{:$Think.config.global_config.site_copyright}" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="inputnetname" class="col-sm-2 col-md-2 col-lg-1 control-label">备案号</label>
+								<div class="col-sm-8 col-md-5 col-lg-3">
+									<input type="text" name="site_record" class="form-control" id="inputname" placeholder="闽ICP备xxxxxx号" value="{:$Think.config.global_config.site_record}" />
+								</div>
+							</div>
+						</div>
+						<div class="tab-pane fade" id="regs">
+							<div class="row">
+								<div class="page-header page-s col-md-6">
+									<h4>通讯设置</h4>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label for="inputnetname" class="col-sm-2 col-md-2 col-lg-1 control-label">通讯KEY</label>
+								<div class="col-sm-8 col-md-5 col-lg-3">
+									<input type="text" name="site_key" class="form-control" id="inputname" placeholder="一般为20秒" value="{$Think.config.global_config.site_key}" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="inputnetname" class="col-sm-2 col-md-2 col-lg-1 control-label">密文有效期(秒)</label>
+								<div class="col-sm-8 col-md-5 col-lg-3">
+									<input type="text" name="site_key_expiry" class="form-control" id="inputname" placeholder="一般为20秒" value="{$Think.config.global_config.site_key_expiry}" />
+								</div>
+								
+							</div>
+							<div class="row">
+								<div class="page-header page-s col-md-6">
+									<h4>用户注册控制</h4>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label for="inputnetname" class="col-sm-2 col-md-2 col-lg-1 control-label">每IP/*秒</label>
+								<div class="col-sm-8 col-md-5 col-lg-3">
+									<input type="text" name="register_time" class="form-control" id="inputname" placeholder="一般为20秒" value="{$Think.config.global_config.register_time}" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="inputnetname" class="col-sm-2 col-md-2 col-lg-1 control-label">注册用户数</label>
+								<div class="col-sm-8 col-md-5 col-lg-3">
+									<input type="text" name="register_num" class="form-control" id="inputname" placeholder="一般为1个用户" value="{$Think.config.global_config.register_num}" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="inputnetname" class="col-sm-2 col-md-2 col-lg-1 control-label">超出次数拉黑</label>
+								<div class="col-sm-8 col-md-5 col-lg-3">
+									<input type="text" name="register_black_count" class="form-control" id="inputname" placeholder="一般为20" value="{$Think.config.global_config.register_black_count}" />
+								</div>
+							</div>
+							<div class="row">
+								<div class="page-header page-s col-md-6">
+									<h4>找回密码提交限制</h4>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label for="inputnetname" class="col-sm-2 col-md-2 col-lg-1 control-label">每IP/*秒</label>
+								<div class="col-sm-8 col-md-5 col-lg-3">
+									<input type="text" name="email_repwb_time" class="form-control" id="inputname" placeholder="一般为60秒" value="{$Think.config.global_config.email_repwb_time}" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="inputnetname" class="col-sm-2 col-md-2 col-lg-1 control-label">提交次数</label>
+								<div class="col-sm-8 col-md-5 col-lg-3">
+									<input type="text" name="email_repwb_num" class="form-control" id="inputname" placeholder="一般为1次" value="{$Think.config.global_config.email_repwb_num}" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="inputnetname" class="col-sm-2 col-md-2 col-lg-1 control-label">超出次数拉黑</label>
+								<div class="col-sm-8 col-md-5 col-lg-3">
+									<input type="text" name="email_repwb_black_count" class="form-control" id="inputname" placeholder="一般为10" value="{$Think.config.global_config.email_repwb_black_count}" />
+								</div>
+							</div>
+						</div>
+
+					</div>
+					<div class="form-group">
+						<div class="col-sm-offset-2 col-md-offset-2 col-lg-offset-1 col-sm-8 col-md-5 col-lg-3">
+							<button id="subnet" type="submit" style="width: 80px;height: 40px;" class="btn btn-primary">保&nbsp;存</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+{/block}
+{block name="script"}
+<script type="text/javascript">
+$(function(){
+	$('#subnet').click(function(){	
+	    var str_data = $("#netform").serialize();        
+        $.ajax({   	
+		    type: "POST",
+		    url: "update",
+		    data: str_data,
+		    success: function(msg) {			
+			    layer.msg(msg);
+		    }
+	    });
+	    return false;	
+   });	
+});
+</script>
+{/block}

@@ -1,0 +1,147 @@
+{extend name="public/base" /}
+{block name="title"}模块管理{/block}
+{block name="css"}
+<link rel="stylesheet" type="text/css" href="__PLUG__/bootstrap-table/bootstrap-table.css"/>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/static/css/table.css"/>
+
+{/block}
+{block name="js"}
+<script src="__PLUG__/bootstrap-table/bootstrap-table.min.js"></script>
+<script src="__PLUG__/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+<script src="__PLUG__/layer/layer.js"></script>
+{/block}
+{block name="style"}{/block}
+{block name="body"}
+<div class="right-product view-product right-full">
+	<div class="container-fluid">
+		<div class="message-manage info-center">
+			<div class="page-header">
+				<div class="pull-left">
+					<h4>模块管理</h4>
+				</div>
+			</div>
+			<div class="manage-detail">
+				<h6 class="h5">模块管理-安装,删除,停用</h6>
+				<!--<div class="margin-tb manage-detail-con clearfix">
+
+				</div>-->
+				<div id="toolbar">
+					<a href="{:URL('admin/AppCenter/index')}" id="addbak" type="button" class="btn btn-primary">应用中心</a>
+				</div>
+				<div class="table-responsivebak">
+					<table id="tables" class="table" data-url="baklist">
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+{/block}
+{block name="script"}
+<script type="text/javascript">
+    var $dbtable = $('#tables');
+	$(document).ready(function() {		
+		$dbtable.bootstrapTable({
+			classes: 'table-hover',
+			pagination: true,
+			search: true,
+			smartDisplay:false,
+			searchOnEnterKey: true,
+			showColumns: false,
+			showRefresh: false,
+			showToggle: false,
+			showPaginationSwitch: false,
+			idField: 'id',
+			uniqueId: 'name',
+			toolbar: '#toolbar',
+			columns: [{
+				field: 'module_id',
+				title: '模块ID',
+				//formatter: vid,
+				align: 'center'
+			}, {
+				field: 'title',
+				title: '模块名称',
+				//sortable: true,
+				editable: true,				
+				align: 'center'
+			}, {
+				field: 'name',
+				title: '模块目录名',
+				//sortable: true,
+				editable: true,				
+				align: 'center'
+			},{
+				field: 'description',
+				title: '说明',
+				//sortable: true,
+				editable: true,				
+				align: 'center'
+			}, {
+				field: 'author',
+				title: '版权',
+				//sortable: true,
+				editable: true,
+				align: 'center'
+			}, {
+				field: 'version',
+				title: '版本',
+				//sortable: true,
+				editable: true,
+				align: 'center'
+			}, {
+				field: 'op',
+				title: '操作',
+				editable: true,
+				//formatter: oper,
+				align: 'lists'
+			}],
+			url: 'lists',
+			//url: 'http://www.app.com/ss.txt',
+			//data: [{"name":"20160524163020.sql","time":"2016-05-24 16:30:20","size":"14.05KB"},{"name":"20160524163619.sql","time":"2016-05-2416:36:19","size":"14.05KB"},{"name":"20160524165738.sql","time":"2016-05-24 16:57:38","size":"14.05KB"}]
+		});
+
+		function oper(value, row, index) {
+			var durl = '{:URL("/admin/databak/index/tp/dowonload/name/'+row.name+'")}';
+			
+			var opf = row.name;
+			var opdata = '<a style="margin-right: 5px" class="btn btn-xs btn-default" href="' + durl + '">停用</a>';
+			opdata += '<button style="margin-right: 5px" type="button" class="btn btn-xs btn-info" onclick="handle(\'restore\',\'' + opf + '\')">安装</button>';
+			opdata += '<button style="margin-right: 5px" type="button" class="btn btn-xs btn-danger" onclick="handle(\'del\',\'' + opf + '\')">删除</button>';
+			return opdata;
+		}
+
+		function vid(value, row, index) {
+			
+			return index;
+		}
+	});
+
+	function handle(tp, name) {
+		var $dbtable = $('#dbbak');
+		if (tp) {
+			if (tp=='del'){
+				$dbtable.bootstrapTable('removeByUniqueId', name);
+			}			
+			$.post("{:url('index')}", {
+				tp: tp,
+				name: name
+			}, function(response) {
+				$dbtable.bootstrapTable('refresh', {silent: true});
+				if(response) {
+					
+					mes(response);
+				} else {
+                    mes("操作失败，请重试!!");					
+				}
+			});
+		}
+	}
+
+	function mes(res) {        
+       layer.msg(res,{
+            time: 1000,});
+       }
+</script>
+{/block}

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="renderer" content="webkit">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+		<title>{$seo['title']}</title>
+		<meta name="keywords" content="{$seo['keywords']}">
+        <meta name="description" content="{$seo['description']}">
+        <link rel="stylesheet" type="text/css" href="__PLUG__/font-awesome-4.7.0/css/font-awesome.min.css" />
+		<link rel="stylesheet" type="text/css" href="__CSS__/app.css" />
+		
+		<link rel="stylesheet" type="text/css" href="__CSS__/style.css" />		
+        <script src="__PLUG__/jquery/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<!-- Bootstrap -->
+
+		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+		<!--[if lt IE 9]>
+        <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+        <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+	<![endif]-->
+	<style>
+		.header .logo {
+			width: 210px;
+			height: 62px
+			
+		}
+		.header .logo img {
+			width: 100%;
+			height: 100%
+		}
+		.site-navbar .nav a {
+			display: inline-block;
+			width: 50px;
+			margin-left: 55px;
+			height: 81px;
+			line-height: 81px;
+			color: #333;
+			text-align: center;
+		}
+
+		.site-navbar .nav a:hover {
+			color: #04a9fe;
+			border-bottom: 2px solid #04a9fe
+		}
+	</style>
+	</head>
+
+	<body class="{$body}">    
+		<header class="header" style="position: fixed;top: 0;width: 100%">
+			<div class="container">
+				<!-- <h1 class="logo"><a href="{:URL('home/Index/index')}">{$Think.config.global_config.site_name}</a></h1> -->
+				<div class="logo">
+					<img src="__PUBLIC__/static/images/logo.png" alt="">
+				</div>
+				<div class="site-navbar">
+					<ul>
+						{volist name="menu" id="vo"}
+						<li class="nav">
+							<a href="{$vo.menu_url}">{$vo.name}</a>
+						</li>
+                        {/volist}
+												
+						<!--<li class="">
+					<a href="{:URL('/index/article_list')}">客户服务</a>					
+				</li>
+				<li class="">
+					<a href="{:URL('/index/help')}">常见问题</a>
+				</li>-->
+					</ul>
+				</div>
+				{if condition="($loginuid == null)"}
+				<div class="wel-login">
+					<a href="{:URL('home/Register/index')}" class="btn">注册</a>
+					<a href="{:URL('home/Login/index')}" class="btn btn-primary">登录</a>
+				</div>
+
+				<div class="m-wel">
+					<div class="m-wel-login">
+						<img class="avatar" src="__PUBLIC__/static/images/tb.png">
+						<a class="m-wel-login" href="{:URL('home/Login/index')}">登 录</a>
+						<a class="m-wel-register" href="{:URL('home/Register/index')}">注册新用户</a>
+					</div>
+				</div>
+                {else /}
+                
+                <div class="wel">
+					<img class="avatar" src="__PUBLIC__/static/images/user.png"> <span class="wel-name">{$loginuser}</span>
+					<div class="sub-menu">
+						<ul>
+							{if condition="($loginuid == 1)"}
+							<li><a href="{:url('admin/Index/index')}">后台管理</a></li> 
+							{/if}
+							{if condition="($agenturl != null)"}							
+							<li><a href="{:url('agents/Index/index')}">{$agenttitle}</a></li> 
+							{/if}
+							{volist name="menu1" id="mo"}
+		                    <li><a href="{:url($mo.url)}">{$mo.name}</a></li>                          
+                            {/volist}
+                            {volist name="menu2" id="ma"}
+		                    <li><a href="{:url($ma.url)}">{$ma.name}</a></li>                          
+                            {/volist}
+							
+							<li>
+								<a href="{:URL('home/Login/quit')}">退出</a>
+							</li>
+						</ul>						 
+					</div>					
+				</div>                	
+				<div class="m-wel">
+					<header>
+						<img class="avatar" src="__PUBLIC__/static/images/user.png">
+						<h4>{$Think.session.user.name}</h4>
+						<h5>{$Think.session.user.user_id}</h5>
+					</header>
+					<div class="m-wel-content">
+						<ul>
+							{if condition="($loginuid == 1)"}
+							<li><a href="{:url('admin/Index/index')}">后台管理</a></li> 
+							{/if}
+							{volist name="menu1" id="mo"}
+		                    <li><a href="{:url($mo.url)}">{$mo.name}</a></li>                          
+                            {/volist}
+                            {volist name="menu2" id="ma"}
+		                    <li><a href="{:url($ma.url)}">{$ma.name}</a></li>                          
+                            {/volist}
+							<li>
+								<a href="{:URL('home/Login/quit')}">退出</a>
+							</li>
+						</ul>
+						
+					</div>
+					<footer>
+						<a href="{:URL('home/Login/quit')}">退出当前账户</a>
+					</footer>
+			    </div>
+                   
+                {/if}
+								
+			<div class="m-navbar-start"><i class="fa">&#xe624;</i></div>
+			<div class="m-wel-start"><i class="fa">&#xe632;</i></div>
+			<div class="m-mask"></div>
+			</div>
+
+		</header>

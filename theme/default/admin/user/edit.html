@@ -1,0 +1,106 @@
+{extend name="public/base" /}
+{block name="title"}用户管理{/block}
+{block name="css"}
+{/block}
+{block name="js"}
+<script src="__PLUG__/layer/layer.js"></script>
+{/block}
+{block name="style"}{/block}
+{block name="body"}
+<div class="right-product view-product right-full">
+	<div class="container-fluid">
+		<div class="message-manage info-center">
+			<div class="page-header">
+				<div class="pull-left">
+					<h4>编辑用户</h4>
+				</div>
+			</div>
+			<div class="manage-detail">
+				<h6 class="h5">编辑用户</h6>
+				<div class="margin-tb manage-detail-con clearfix">
+				</div>
+				<form id="edit" class="form-horizontal">
+					<div class="form-group">
+						<input type="hidden" name="uid" id="uid" value="{$uid}" />
+						<label for="inputnetname" class="col-sm-1 control-label">用户名</label>
+						<div class="col-sm-8 col-md-6 col-lg-4">
+							<input type="text" name="name" class="form-control" id="inputname" placeholder="UserName" value="{$userdb['name']}" disabled/>
+						</div>
+						<label style="color: red;" class="control-label">*</label>
+					</div>
+					<div class="form-group">
+						<label for="inputnetname" class="col-sm-1 control-label">密码</label>
+						<div class="col-sm-8 col-md-6 col-lg-4">
+							<input type="password" name="password" class="form-control" id="inputname" placeholder="Password" value="" />
+						</div>
+						<label style="color: red;" for="inputpwd" class="control-label">*</label>
+					</div>
+					<div class="form-group">
+						<label for="inputpwd" class="col-sm-1 control-label">确认密码</label>
+						<div class="col-sm-8 col-md-6 col-lg-4">
+							<input type="password" name="passworden" class="form-control" id="inputname" placeholder="Password" value="" />
+						</div>
+						<label style="color: red;" for="inputpwd" class="control-label">*</label>
+					</div>
+					<div class="form-group">
+						<label for="inputpwd" class="col-sm-1 control-label">用户积分</label>
+						<div class="col-sm-8 col-md-6 col-lg-4">
+							<input type="text" name="score" class="form-control" placeholder="积分值" value="{$userdb['score']}" />
+						</div>
+						<label style="color: red;" for="inputpwd" class="control-label">*</label>
+					</div>
+					<div class="form-group">
+						<label for="inputpwd" class="col-sm-1 control-label">备注信息</label>
+						<div class="col-sm-8 col-md-6 col-lg-4">
+							<input type="text" name="comments" class="form-control" placeholder="备注" value="{$userdb['comments']}" />
+						</div>
+
+					</div>
+
+					<div class="form-group">
+						<label for="inputpwd" class="col-sm-1 control-label">所在用户组</label>
+						<div class="col-sm-8 col-md-6 col-lg-4">
+							<select class="form-control" name="usergroup">
+								{volist name="groupinfo" id="vo"}
+								{if condition="$vo.title == $usergroup"}
+								<option value="{$vo.id}" selected="selected">{$vo.title}</option>
+								{else /}
+								<option value="{$vo.id}">{$vo.title}</option>
+								{/if} {/volist}
+							</select>
+						</div>
+						<label style="color: red;" for="inputpwd" class="control-label">*</label>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-offset-3 col-md-offset-3 col-lg-offset-2 col-sm-8 col-md-6 col-lg-4">
+							<a role="button" href="{:URL('admin/User/index')}" type="button" class="btn btn-warning">返回</a>
+							<button id="subadd" type="submit" class="btn btn-primary">确认修改</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+{/block}
+{block name="script"}
+<script type="text/javascript">
+	$(document).ready(function() {		
+		$('#subadd').click(function() {
+			var str_data = $("#edit").serialize();			
+			$.ajax({
+				type: "get",
+				url: "{:URL('admin/User/inEdit')}",
+				data: str_data,
+				success: function(msg) {
+					layer.msg(msg);
+					
+				}
+			});
+			return false;
+		});
+		
+	});
+</script>
+{/block}

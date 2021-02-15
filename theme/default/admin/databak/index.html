@@ -1,0 +1,135 @@
+{extend name="public/base" /}
+{block name="title"}数据备份{/block}
+{block name="css"}
+<link rel="stylesheet" type="text/css" href="__PLUG__/bootstrap-table/bootstrap-table.css"/>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/static/css/table.css"/>
+
+{/block}
+{block name="js"}
+<script src="__PLUG__/bootstrap-table/bootstrap-table.min.js"></script>
+<script src="__PLUG__/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+<script src="__PLUG__/layer/layer.js"></script>
+{/block}
+{block name="style"}{/block}
+{block name="body"}
+<div class="right-product view-product right-full">
+	<div class="container-fluid">
+		<div class="message-manage info-center">
+			<div class="page-header">
+				<div class="pull-left">
+					<h4>数据备份</h4>
+				</div>
+			</div>
+			<div class="manage-detail">
+				<h6 class="h5">请每天备份您的数据库，数据库下载地址已时间+加密，防越权下载，如果不放心请备份下载后删除</h6>
+				<div class="margin-tb manage-detail-con clearfix">
+
+				</div>
+				<div id="toolbar">
+					<button id="addbak" type="button" class="btn btn-primary" onclick="handle('backup')">添加备份</button>
+				</div>
+				<div class="table-responsivebak">
+					<table id="dbbak" class="table" data-url="baklist">
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+{/block}
+{block name="script"}
+<script type="text/javascript">
+    var $dbtable = $('#dbbak');
+	$(document).ready(function() {		
+		$dbtable.bootstrapTable({
+			classes: 'table-hover',
+			pagination: true,
+			search: true,
+			smartDisplay:false,
+			searchOnEnterKey: true,
+			showColumns: true,
+			showRefresh: true,
+			showToggle: true,
+			showPaginationSwitch: true,
+			idField: 'id',
+			uniqueId: 'name',
+			toolbar: '#toolbar',
+			columns: [{
+				field: 'id',
+				title: '序号',
+				formatter: vid,
+				align: 'center'
+			}, {
+				field: 'name',
+				title: '备份名称',
+				sortable: true,
+				editable: true,				
+				align: 'center'
+			}, {
+				field: 'time',
+				title: '备份时间',
+				sortable: true,
+				editable: true,				
+				align: 'center'
+			}, {
+				field: 'size',
+				title: '备份大小',
+				sortable: true,
+				editable: true,
+				align: 'center'
+			}, {
+				field: 'op',
+				title: '操作',
+				editable: true,
+				formatter: oper,
+				align: 'center'
+			}],
+			url: 'baklist',
+			//url: 'http://www.app.com/ss.txt',
+			//data: [{"name":"20160524163020.sql","time":"2016-05-24 16:30:20","size":"14.05KB"},{"name":"20160524163619.sql","time":"2016-05-2416:36:19","size":"14.05KB"},{"name":"20160524165738.sql","time":"2016-05-24 16:57:38","size":"14.05KB"}]
+		});
+
+		function oper(value, row, index) {
+			var durl = '{:URL("/admin/databak/index/tp/dowonload/name/'+row.name+'")}';
+			
+			var opf = row.name;
+			var opdata = '<a style="margin-right: 5px" class="btn btn-xs btn-success" href="' + durl + '">下载</a>';
+			opdata += '<button style="margin-right: 5px" type="button" class="btn btn-xs btn-warning" onclick="handle(\'restore\',\'' + opf + '\')">还原</button>';
+			opdata += '<button style="margin-right: 5px" type="button" class="btn btn-xs btn-danger" onclick="handle(\'del\',\'' + opf + '\')">删除</button>';
+			return opdata;
+		}
+
+		function vid(value, row, index) {
+			
+			return index;
+		}
+	});
+
+	function handle(tp, name) {
+		var $dbtable = $('#dbbak');
+		if (tp) {
+			if (tp=='del'){
+				$dbtable.bootstrapTable('removeByUniqueId', name);
+			}			
+			$.post("{:url('index')}", {
+				tp: tp,
+				name: name
+			}, function(response) {
+				$dbtable.bootstrapTable('refresh', {silent: true});
+				if(response) {
+					
+					mes(response);
+				} else {
+                    mes("操作失败，请重试!!");					
+				}
+			});
+		}
+	}
+
+	function mes(res) {        
+       layer.msg(res,{
+            time: 1000,});
+       }
+</script>
+{/block}

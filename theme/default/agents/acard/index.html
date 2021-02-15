@@ -1,0 +1,253 @@
+{extend name="public/base" /}
+{block name="title"}充值卡管理{/block}
+{block name="css"}
+<link rel="stylesheet" type="text/css" href="__PLUG__/bootstrap-table/bootstrap-table.css"/>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/static/css/table.css"/>
+{css href="__PUBLIC__/static/css/table.css" /}
+<link rel="stylesheet" type="text/css" href="__PLUG__/radiocheckbox/css/jquery-labelauty.css" />
+{/block}
+{block name="js"}
+<script src="__PLUG__/bootstrap-table/bootstrap-table.min.js"></script>
+<script src="__PLUG__/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+<script src="__PLUG__/layer/layer.js"></script>
+{js href="__PLUG__/bootstrap-table/extensions/export/bootstrap-table-export.js" /}
+{js href="__PLUG__/bootstrap-table/extensions/export/tableExport.js" /}
+<script src="__PLUG__/radiocheckbox/js/jquery-labelauty.js" type="text/javascript" charset="utf-8"></script>
+{/block}
+{block name="style"}
+<style type="text/css">
+		.thumbnail {
+			border: 0px solid #FFFFFF;
+			margin-bottom: 0px;
+		}
+		.dowebok {
+			list-style-type: none;
+			margin-bottom: 0px;
+		}
+		
+		.lis {
+			display: inline-block;
+			margin: 1px 0;
+		}
+		
+		
+		input.labelauty+ label {
+			font: 12px "Microsoft Yahei";
+		}
+	</style>
+{/block}
+{block name="body"}
+<div class="right-product view-product right-full">
+	<div class="container-fluid">
+		<div class="message-manage info-center">
+			<div class="page-header">
+				<div class="pull-left">
+					<h4>授权码管理</h4>
+				</div>
+			</div>
+			<div class="manage-detail">
+				<h6 class="h5">选择你要管理的授权码，每一项必须选择</h6>
+				<div class="row">
+					<form id="list" action="" method="post">
+						<div class="col-sm-1">
+							<h5 class="text-right">应用选项</h5>
+						</div>
+						<div style="padding-left: 0px;" class="col-sm-11">
+							<ul class="dowebok">
+								{volist name="appdb" id="vo"}
+								<li class="lis"><input type="radio" name="appid" value="{$vo.appid}" data-labelauty="{$vo.app_name}"></li>
+								{/volist}
+
+								<!--<li class="lis"><input type="radio" name="radio" disabled data-labelauty="不可用"></li>-->
+							</ul>
+						</div>
+						<div class="col-sm-1">
+							<h5 class="text-right">可用状态</h5>
+						</div>
+						<div style="padding-left: 0px;" class="col-sm-11">
+							<ul class="dowebok">
+								<li class="lis"><input type="radio" name="status" value="1" data-labelauty="启用"></li>
+								<li class="lis"><input type="radio" name="status" value="0" data-labelauty="停用"></li>
+							</ul>
+						</div>
+						<div class="col-sm-1">
+							<h5 class="text-right">销售状态</h5>
+						</div>
+						<div style="padding-left: 0px;" class="col-sm-11">
+							<ul class="dowebok">
+								<li class="lis"><input type="radio" name="sales_status" value="0" data-labelauty="未出售"></li>
+								<li class="lis"><input type="radio" name="sales_status" value="1" data-labelauty="已出售"></li>
+								<li class="lis"><input type="radio" name="sales_status" value="2" data-labelauty="已使用"></li>
+							</ul>
+						</div>
+					</form>
+				</div>
+			</div>
+			<div class="divs">
+				<div id="toolbar">
+					<button type="button" id="setlist" class="btn btn-warning"><span class="fa fa-gear"></span>设为已售</button>
+
+				</div>
+				<div class="table-responsive" data-show-refresh="true">
+					<table id="acardtable">
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+{/block}
+{block name="script"}
+<script type="text/javascript">
+	$(function(){
+	   $(':input').labelauty();	   
+   });
+</script>
+
+<script type="text/javascript">
+    var $table = $('#acardtable');
+	$(document).ready(function() {		
+		$table.bootstrapTable({
+			classes: 'table table-hover',
+			paginationPreText: '上一页',
+			paginationNextText: '下一页',
+			pagination: true,
+			search: true,
+			searchOnEnterKey: true,
+			showColumns: true,
+			showRefresh: true,
+			showToggle: true,
+			showPaginationSwitch: true,
+			idField: 'uid',
+			showexport: true,
+			uniqueId: 'uid',
+			toolbar: '#toolbar',
+			showExport: true,
+			sidePagination: 'server',
+			url: '__ROOT__/agents/acard/acardlist',
+			queryParamsType: '',
+			queryParams: getdata,
+			columns: [
+			{
+				checkbox:true,				
+				align: 'center'
+			},{
+				field: 'id',
+				title: 'ID',
+				align: 'center'
+			}, {
+				field: 'acard_number',
+				title: '授权号',
+				editable: true,
+				align: 'center'
+			},{
+				field: 'user',
+				title: '用户',
+				editable: true,
+				align: 'center'
+			},{
+				field: 'app_name',
+				title: '所属应用',
+				editable: true,
+				align: 'center'
+			},{
+				field: 'sales_time',
+				title: '销售时间',				
+				align: 'center'
+			},{
+				field: 'expire_time',
+				title: '到期时间',				
+				align: 'center'
+			},{
+				field: 'logintime',
+				title: '上次登录时间',
+				visible: false,
+				editable: true,
+				align: 'center'
+			},{
+				field: 'logincount',
+				title: '登录次数',
+				editable: true,
+				visible: false,
+				align: 'center'
+			}, {
+				field: 'sales_status',
+				title: '销售状态',
+				editable: true,
+				align: 'center'
+			},{
+				field: 'status',
+				title: '状态',
+				editable: true,
+				align: 'center'
+			}],
+			exportDataType:'selected'
+		});
+        function getdata(params){        	
+        	var data = {};
+            $("#list").serializeArray().map(function(x){
+	            if (data[x.name] !== undefined) {
+                    if (!data[x.name].push) {
+                        data[x.name] = [data[x.name]];
+                    }
+                    data[x.name].push(x.value || '');
+                } else {
+                    data[x.name] = x.value || '';
+                }
+            });
+            
+        	var temp = {
+        		limit: params.pageSize,
+                offset: params.pageNumber,
+                search: params.searchText,
+                appid:data.appid,
+                status:data.status,
+                sales_status:data.sales_status,
+        	};
+        	return temp;
+        }
+		
+	});
+    
+	
+	$(document).ready(function() {
+		$('.lis').change(function() {
+			var act=$table.bootstrapTable('getSelections');	
+			$table.bootstrapTable('refresh', {silent: true});
+		});
+	});
+	$("#setlist").click(function(){
+        var act=$table.bootstrapTable('getSelections');
+        if(act==false){
+       	  layer.msg('请选择要操作的列表'); 
+        }else{
+        	layer.confirm('是否批量设置选中项？', {
+                btn: ['确定','取消'] //按钮
+            }, function(){
+                setlist(act);
+            }, function(){
+                
+            });       	
+        }           
+    });
+    function setlist(act){
+    	$.post("__ROOT__/agents/acard/set", {
+			acardset: 'setlist',
+			data: act,
+		}, function(response) {
+				//$table.bootstrapTable('removeByUniqueId', uid);//
+			$table.bootstrapTable('refresh', {silent: true});
+			if (response) {					
+				layer.msg(response);
+			} else {
+                layer.alert('操作失败！请重试！');					
+			}
+		});
+    }
+    
+    function retable(index, layero){
+    	$table.bootstrapTable('refresh', {silent: true});
+    }
+</script>
+{/block}

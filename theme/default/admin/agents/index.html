@@ -1,0 +1,187 @@
+{extend name="public/base" /}
+{block name="title"}代理管理{/block}
+{block name="css"}
+<link rel="stylesheet" type="text/css" href="__PLUG__/bootstrap-table/bootstrap-table.css"/>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/static/css/table.css"/>
+{css href="__PUBLIC__/static/css/table.css" /}
+{/block}
+{block name="js"}
+<script src="__PLUG__/bootstrap-table/bootstrap-table.min.js"></script>
+<script src="__PLUG__/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+<script src="__PLUG__/layer/layer.js"></script>
+{js href="__PLUG__/bootstrap-table/extensions/export/bootstrap-table-export.js" /}
+{js href="__PLUG__/bootstrap-table/extensions/export/tableExport.js" /}
+{/block}
+{block name="style"}{/block}
+{block name="body"}
+<div class="right-product view-product right-full">
+	<div class="container-fluid">
+		<div class="message-manage info-center">
+			<div class="page-header">
+				<div class="pull-left">
+					<h4>代理管理</h4>
+				</div>
+			</div>
+			<div class="manage-detail">
+				<h6 class="h5">代理管理</h6>
+				<div id="toolbar">
+					<button type="button" id="dellist" class="btn btn-warning"><span class="glyphicon glyphicon-trash"></span>删除</button>
+				</div>
+				<div class="table-responsive" data-show-refresh="true">
+					<table id="usertable">
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+{/block}
+{block name="script"}
+<script type="text/javascript">
+    var $table = $('#usertable');
+	$(document).ready(function() {		
+		$table.bootstrapTable({
+			classes: 'table table-hover',
+			paginationPreText: '上一页',
+			paginationNextText: '下一页',
+			pagination: true,
+			search: false,
+			searchOnEnterKey: true,
+			showColumns: true,
+			showRefresh: true,
+			showToggle: true,
+			showPaginationSwitch: true,
+			idField: 'uid',
+			showexport: true,
+			uniqueId: 'uid',
+			toolbar: '#toolbar',
+			showExport: true,
+			sidePagination: 'server',
+			url: '__ROOT__/admin/agents/index',
+			columns: [
+			{
+				checkbox:true,				
+				align: 'center'
+			},{
+				field: 'uid',
+				title: 'UID',
+				align: 'center'
+			},{
+				field: 'name',
+				title: '用户名',
+				editable: true,
+				align: 'center'
+			},{
+				field: 'score',
+				title: '积分',
+				editable: true,
+				align: 'center'
+			},{
+				field: 'type_name',
+				title: '类型',
+				editable: true,
+				align: 'center'
+			}, {
+				field: 'add_time',
+				title: '加入时间',
+				editable: true,
+				align: 'center'
+			},{
+				field: 'status',
+				title: '代理状态',
+				editable: true,
+				align: 'center'
+			},{
+				field: 'app_num',
+				title: '代理商品数',				
+				align: 'center'
+			},{
+				field: 'op',
+				title: '操作',				
+				editable: true,
+				formatter: oper,
+				align: 'center'
+			},],
+		});
+
+		function oper(value, row, index) {			
+			
+			var uid = row.uid;
+			var status=row.status;			
+			var opdata = '';
+			    if (status!='<span style="color:#CC0000">已停用</span>') {
+			    	opdata += '<div style="margin-right: 5px" type="button" title="停用" class="btn btn-xs btn-on" onclick="userset(\'stop\',\'' + uid + '\')"><i class="fa fa-toggle-on"></i></div>';			    	
+			    } else{
+			    	opdata += '<div style="margin-right: 5px" type="button" title="启用" class="btn btn-xs btn-off" onclick="userset(\'start\',\'' + uid + '\')"><i class="fa fa-toggle-off"></i></div>';			    	
+			    }
+
+				opdata += '<a href="__ROOT__/admin/agents/agentsinfo?uid=' + uid +'" role="button" style="margin-right: 5px" type="button" class="btn btn-xs btn-icon">祥细信息</a>';
+
+			
+			return opdata;
+		}
+
+		function vid(value, row, index) {
+			//var row=index;
+			return index;
+		}
+	});
+	$("#dellist").click(function(){
+        var act=$table.bootstrapTable('getSelections');
+        if(act==false){
+       	  layer.msg('请选择要删除的列表'); 
+        }else{
+        	layer.confirm('是否批量删除选中项？', {
+                btn: ['确定','取消'] //按钮
+            }, function(){
+                deluser(act);
+            }, function(){
+                
+            });
+       	
+        }
+       
+      
+    });
+    function deluser(act){
+    	$.get("__ROOT__/admin/agents/set", {
+			userset: 'dellist',
+			data: act,
+		}, function(response) {
+				//$table.bootstrapTable('removeByUniqueId', uid);//
+			$table.bootstrapTable('refresh', {silent: true});
+			if (response) {					
+				layer.msg(response);
+			} else {
+                layer.alert('操作失败！请重试！');					
+			}
+		});
+    }
+
+	function userset(sets,uid) {
+		var $table = $('#usertable');
+		if(sets=='stop' || sets=='start'){						
+			$.get("__ROOT__/admin/agents/set", {
+				userset: sets,
+				uid: uid,
+			}, function(response) {
+				//$table.bootstrapTable('removeByUniqueId', uid);//
+				$table.bootstrapTable('refresh', {silent: true});
+				if (response) {					
+					layer.msg(response);
+				} else {
+                    layer.alert('操作失败！请重试！');					
+				}
+			});
+			
+		}
+			
+		
+	}
+
+    function retable(index, layero){
+    	$table.bootstrapTable('refresh', {silent: true});
+    }
+</script>
+{/block}

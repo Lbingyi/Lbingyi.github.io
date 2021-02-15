@@ -1,0 +1,428 @@
+{include file="public/header" title="$title" keywords="$article.keyword" description="$article.description" /}
+   <link rel="stylesheet" href="__PLUG__/Statics/style/reset.css" type="text/css"/>
+   <link rel="stylesheet" href="__PLUG__/Statics/style/index10141.css">
+	<link rel="stylesheet" href="__PLUG__/Statics/style/index1014.css" type="text/css"/>
+    <script src="__PLUG__/Statics/js/jquery.min.js"></script>
+    <script>
+        function browserRedirect() {
+            var sUserAgent = navigator.userAgent.toLowerCase();
+            var bIsIpad = sUserAgent.match(/ipad/i) == "ipad";
+            var bIsIphoneOs = sUserAgent.match(/iphone os/i) == "iphone os";
+            var bIsMidp = sUserAgent.match(/midp/i) == "midp";
+            var bIsUc7 = sUserAgent.match(/rv:1.2.3.4/i) == "rv:1.2.3.4";
+            var bIsUc = sUserAgent.match(/ucweb/i) == "ucweb";
+            var bIsAndroid = sUserAgent.match(/android/i) == "android";
+            var bIsCE = sUserAgent.match(/windows ce/i) == "windows ce";
+            var bIsWM = sUserAgent.match(/windows mobile/i) == "windows mobile";
+
+            if (bIsIpad || bIsIphoneOs || bIsMidp || bIsUc7 || bIsUc || bIsAndroid || bIsCE || bIsWM ){
+                window.location.href="#";
+            }
+        }
+        browserRedirect();
+        $(function () {
+            $('.main li').css({width:'180px'});
+            $('.cover1 li').eq(0).css({width:'153px'}).eq(10).css({width:'147px'})
+            $('.cover li').eq(0).css({width:'153px'}).eq(10).css({width:'147px'})
+            $('#cover1 li').hover(function () {
+                var Index = $(this).index()
+                $('#cover li').eq(Index).stop().animate({'opacity':0})
+            },function () {
+                var Index = $(this).index()
+                $('#cover li').eq(Index).stop().animate({'opacity':1})
+            });
+            $('.next,.prev').hide()
+            var i =0;
+            var timer = null
+            for(var b =0;b<$('.ii-child').length;b++){
+                $('#ii-index').append('<li></li>')
+            }
+            $('#ii-index li').eq(0).addClass('active');
+            var first = $('.ii-child').eq(0).clone()
+            var width = parseInt($('.ii-carousel').width())+17;
+            $(window).resize(function () {
+                var timer2 =setTimeout(function () {
+                    width = parseInt($('.ii-carousel').width())+17;
+                    $('.ii-banner').append(first).css({width: $('.ii-child').length * width+ 'px'});
+                    $('.ii-child').width(width)
+                    $('.ii-banner').css({left: 0})
+                    $('#ii-index li').eq(0).addClass('active').siblings().removeClass('active')
+                    clearTimeout(timer2)
+                },100)
+            })
+            $('.ii-banner').append(first).css({width: $('.ii-child').length * width+ 'px'});
+            $('.ii-child').width(width)
+            $('.next').on('click',function () {
+                i++;
+                if(i == $('.ii-child').length) {
+                    i = 1
+                    $('.ii-banner').css({left: 0})
+                }
+                $('.ii-banner').stop().animate({left: -i* width+'px'},300)
+                if(i >= $('.ii-child').length-1) {
+                    $('#ii-index li').eq(0).addClass('active').siblings().removeClass('active')
+                }else{
+                    $('#ii-index li').eq(i).addClass('active').siblings().removeClass('active')
+                }
+            })
+
+            $('.prev').click(function () {
+                i--
+                if(i===-1){
+                    i = $('.ii-child').length-2
+                    $('.ii-banner').css({left: -($('.ii-child').length-1)*width})
+                }
+                $('.ii-banner').stop().animate({left:-i*width},300)
+                $('#ii-index li').eq(i).addClass('active').siblings().removeClass('active')
+            });
+            $('.ii-carousel').hover(function () {
+                $('.next,.prev').hide()
+            },function () {
+                $('.next,.prev').hide()
+            })
+            $('#ii-index li').mouseover(function () {
+                var _index= $(this).index();
+                $('.ii-banner').stop().animate({left: -_index*width+'px'},300)
+                $('#ii-index li').eq(_index).addClass('active').siblings().removeClass('active')
+            })
+            timer = setInterval(function () {
+                i++
+                if(i==$('.ii-child').length) {
+                    i=1
+                    $('.ii-banner').css({left: 0})
+                }
+                $('.ii-banner').stop().animate({left: -i*width},300)
+                if(i == $('.ii-child').length-1) {
+                    $('#ii-index li').eq(0).addClass('active').siblings().removeClass('active')
+                }else{
+                    $('#ii-index li').eq(i).addClass('active').siblings().removeClass('active')
+                }
+            },5000)
+            $('.ii-carousel').hover(function () {
+                clearTimeout(timer)
+            },function () {
+                timer = setInterval(function () {
+                    i++
+                    if(i==$('.ii-child').length) {
+                        i=1
+                        $('.ii-banner').css({left: 0})
+                    }
+                    $('.ii-banner').stop().animate({left: -i*width},300)
+                    if(i == $('.ii-child').length-1) {
+                        $('#ii-index li').eq(0).addClass('active').siblings().removeClass('active')
+                    }else{
+                        $('#ii-index li').eq(i).addClass('active').siblings().removeClass('active')
+                    }
+                },5000)
+            })
+        })
+    </script>
+    <style>
+        #acti {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 99999;
+            background: url(__PLUG__/Statics/style/ch_img/avti.png) repeat;
+            display: none;
+        }
+        #acti_con {
+            width: 660px;
+            height: 531px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-left: -330px;
+            margin-top: -265px;
+            background: url(__PLUG__/Statics/style/ch_img/avti_bg.png) no-repeat center;
+            animation: Acti 2s linear;
+            -webkit-animation: Acti 1.3s;
+            -moz-animation: Acti 1.3s;
+            -o-animation: Acti 1.3s;
+        }
+        .acti_close{
+            width: 32px;
+            height: 32px;
+            display: block;
+            background: url("__PLUG__/Statics/style/ch_img/avti_close.png") no-repeat center;
+            float: right;
+            position: relative;
+            top: 70px;
+            left: -95px;
+
+        }
+        #acti a{
+            display: block;
+            width: 227px;height: 46px;
+            background: url("__PLUG__/Statics/style/ch_img/avti_href.png") no-repeat top;
+            position: relative;
+            top: 470px;
+            left: 205px;
+        }
+        #acti a:hover{
+            background: url("__PLUG__/Statics/style/ch_img/avti_href.png") no-repeat bottom;
+        }
+        @keyframes Acti {
+            0%{
+                transform:translateY(-150%);
+            }
+            100%{
+                transform:translateY(0);
+            }
+
+        }
+        @keyframes Left {
+            0% {
+                transform: translate3d(-100%,0,0);
+            }
+            100%{
+                transform: translate3d(0%,0,0);
+            }
+        }
+    </style>
+    <STYLE>
+        #double{
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: url(__PLUG__/Statics/style/ch_img/avti.png) repeat;
+            z-index: 1000;
+        }
+        #double_con{
+            width: 527px;
+            height: 480px;
+            background: url(__PLUG__/Statics/style/double_img/index_info.png) no-repeat center;
+            position: absolute;
+            z-index: 500;
+            left: 50%;
+            top: 50%;
+            margin-left: -263px;
+            margin-top: -240px;
+        }
+        #double_con a{
+            display: block;
+            width: 254px;
+            height: 70px;
+            background: url(__PLUG__/Statics/style/double_img/index_btn.png) no-repeat left;
+            position: absolute;
+            bottom:15px;
+            left: 50%;
+            margin-left: -136px;
+        }
+        #double_con a:hover{  background: url(__PLUG__/Statics/style/double_img/index_btn.png) no-repeat right;}
+        .double_close{
+            width: 32px;
+            height: 32px;
+            display: block;
+            background: url("__PLUG__/Statics/style/ch_img/avti_close.png") no-repeat center;
+            position: relative;
+            margin: 0 auto;
+            left: -15px;
+            top: 520px;
+        }
+        #double_con.lala{
+            animation: lala 3s infinite;
+        }
+        @keyframes lala {
+            0%{
+                transform: rotate(4deg);
+            }
+            10%{
+                transform: rotate(-4deg);
+            }
+            20%{
+                transform: rotate(4deg);
+            }
+            30%{
+                transform: rotate(-4deg);
+            }
+            40%{
+                transform: rotate(4deg);
+            }
+            50%{
+                transform: rotate(-4deg);
+            }
+            60%{
+                transform: rotate(3deg);
+            }
+            70%{
+                transform: rotate(-3deg);
+            }
+            80%{
+                transform: rotate(1deg);
+            }
+            90%{
+                transform: rotate(-1deg);
+            }
+            100%{
+                transform: rotate(0deg);
+            }
+        }
+    </STYLE>
+	</br></br></br></br>
+<div class="ii-carousel">
+    <div class="ii-banner">
+<!--         <div class="new-main ii-child">
+            <div class="w1200">
+                <i class="new-top"></i>
+                <i class="new-text1"></i>
+                <i class="new-text2"></i>
+                <a href="/indexfour" class="new-text3"></a>
+            </div>
+            <div class="wave">
+                <span class="wave-1 waveUp-1 wave-1-moving"></span>
+                <span class="wave-2 waveUp-2 wave-2-moving"></span>
+                <span class="wave-3 waveUp-3 wave-3-moving"></span>
+            </div>
+        </div> -->
+        <div class="main ii-child">
+            <div class="xslider">
+                <div class="slider-container">
+                    <div class="main-one">
+                        <ul class="cover" id="cover">
+                            <li></li>
+                            <li style="opacity: 1;"></li>
+                            <li style="opacity: 1;"></li>
+                            <li style="opacity: 1;"></li>
+                            <li style="opacity: 1;"></li>
+                            <li style="opacity: 1;"></li>
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                        </ul>
+                    </div>
+                    <div class="main1">
+                        <p class="p">加速哟网游加速</p>
+                        <div class="line1">
+                        </div>
+                        <div class="line1">
+                        </div>
+                        <div class="line0">
+                        </div>
+                        <div class="main1-two"></div>
+                        <p class="p1">有保障的网游加速服务</p>
+                        <p class="p2"></p>
+                        <a href="/download" class="main1-one">免费试用</a>
+                    </div>
+                    <div class="main-two">
+                        <ul class="cover1" id="cover1">
+                            <li style="width: 153px;"></li>
+                            <li style="width: 180px;"></li>
+                            <li style="width: 180px;"></li>
+                            <li style="width: 180px;"></li>
+                            <li style="width: 180px;"></li>
+                            <li style="width: 180px;"></li>
+                            <li style="width: 180px;"></li>
+                            <li style="width: 180px;"></li>
+                            <li style="width: 180px;"></li>
+                            <li style="width: 180px;"></li>
+                            <li style="width: 180px;"></li>
+                            <li style="width: 180px;"></li>
+                            <li style="width: 180px;"></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<!--     <div class="prev"><i></i></div>
+    <div class="next"><i></i></div>
+    <ol id="ii-index"></ol> -->
+</div>
+<div class="first anim-start">
+    <div class="w1200">
+        <div class="first_ani">
+            <i class="fi_1"></i>
+            <i class="fi_2"></i>
+            <i class="fi_3"></i>
+            <i class="fi_4"></i>
+        </div>
+        <div class="first_text one_text">
+            <h2 class="common_title"><span>极</span>加速畅快玩</h2>
+            <p>率先采用全新的节点智能匹配算法<br/>独享专线带宽，国内云计算数据中心<br/>确保SLA数据传输稳定性高达99.9%</p>
+        </div>
+    </div>
+</div>
+<div class="two anim-start">
+    <div class="w1200">
+        <div class="two_text one_text l">
+            <h2 class="common_title"><span>多</span>平台全兼容</h2>
+            <p>千款游戏，多平台全方位支持<br />24小时专人值守确保最新游戏支持<br/>P2P类游戏NAT全程OPEN，畅享优质联机体验</p>
+        </div>
+        <div class="two_ani">
+            <i class="ti_1"></i>
+            <i class="ti_2"></i>
+            <i class="ti_3"></i>
+            <i class="ti_4"></i>
+            <i class="ti_5"></i>
+        </div>
+    </div>
+</div>
+<div class="three anim-start">
+    <div class="w1200">
+        <div class="three_ani">
+            <em class="three_img"></em>
+            <i class="th_1"></i>
+            <i class="th_2"></i>
+        </div>
+        <div class="three_text one_text r">
+            <h2 class="common_title"><span>优</span>服务高效率</h2>
+            <p>24小时免费体验加速<br />7*14小时在线客服贴心服务<br/>7*24小时运维监控提供技术支持</p>
+        </div>
+    </div>
+</div>
+</br></br></br></br></br>
+{include file="public/flooter" /}
+<!--  <style type="text/css">
+    .active20180801 {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        left: 0;
+        top: 0;
+        background-color: rgba(0, 0, 0, 0.7);
+        z-index: 10000;
+    }
+
+    .active20180801 .act_main {
+        width: 730px;
+        height: auto;
+        margin: 0 auto;
+        margin-top: -244px;
+        top: 50%;
+        position: relative;
+        /*padding-top: 180px;*/
+        text-align: center;
+        vertical-align: center;
+    }
+
+    .active20180801 .act_main > img:nth-child(1) {
+        position: absolute;
+        margin-left: 700px;
+        cursor: pointer;
+    }
+
+    .active20180801 .act_main a {
+        display: inline-block;
+        margin-top: 40px;
+    }
+</style>
+<div class="active20180801">
+    <div class="act_main">
+        <img onclick="javascript:$('.active20180801').fadeOut();" src="__PLUG__/Statics/style/ch_img/avti_close.png">
+        <img src="__PLUG__/Statics/style/ch_img/activity.png">
+        <a href="/price/">
+            <img src="__PLUG__/Statics/style/ch_img/go-order.png">
+        </a>
+    </div>
+</div>
+
+<script src="__PLUG__/Statics/js/index1014.js"></script> -->

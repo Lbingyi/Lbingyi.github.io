@@ -1,0 +1,151 @@
+{extend name="public/base" /}
+{block name="title"}插件管理{/block}
+{block name="css"}
+<link rel="stylesheet" type="text/css" href="__PLUG__/bootstrap-table/bootstrap-table.css"/>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/static/css/table.css"/>
+
+{/block}
+{block name="js"}
+<script src="__PLUG__/bootstrap-table/bootstrap-table.min.js"></script>
+<script src="__PLUG__/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+<script src="__PLUG__/layer/layer.js"></script>
+{/block}
+{block name="style"}{/block}
+{block name="body"}
+<div class="right-product view-product right-full">
+	<div class="container-fluid">
+		<div class="message-manage info-center">
+			<div class="page-header">
+				<div class="pull-left">
+					<h4>插件管理</h4>
+				</div>
+			</div>
+			<div class="manage-detail">
+				<h6 class="h5">插件管理-安装,删除,停用</h6>
+				<!--<div class="margin-tb manage-detail-con clearfix">
+
+				</div>-->
+				<div id="toolbar">
+					<a href="{:URL('admin/AppCenter/index')}" id="addbak" type="button" class="btn btn-primary">应用中心</a>
+				</div>
+				<div class="table-responsivebak">
+					<table id="tables" class="table" data-url="baklist">
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+{/block}
+{block name="script"}
+<script type="text/javascript">
+    var $dbtable = $('#tables');
+	$(document).ready(function() {		
+		$dbtable.bootstrapTable({
+			classes: 'table-hover',
+			pagination: true,
+			search: true,
+			smartDisplay:false,
+			searchOnEnterKey: true,
+			showColumns: false,
+			showRefresh: false,
+			showToggle: false,
+			showPaginationSwitch: false,
+			idField: 'id',
+			uniqueId: 'name',
+			toolbar: '#toolbar',
+			columns: [{
+				field: 'appcenter_id',
+				title: '插件ID',
+				//formatter: vid,
+				align: 'center'
+			}, {
+				field: 'title',
+				title: '插件名称',
+				//sortable: true,
+				editable: true,				
+				align: 'center'
+			}, {
+				field: 'name',
+				title: '插件目录名',
+				//sortable: true,
+				editable: true,				
+				align: 'center'
+			},{
+				field: 'description',
+				title: '说明',
+				//sortable: true,
+				editable: true,				
+				align: 'center'
+			}, {
+				field: 'author',
+				title: '版权',
+				//sortable: true,
+				editable: true,
+				align: 'center'
+			}, {
+				field: 'version',
+				title: '版本',
+				//sortable: true,
+				editable: true,
+				align: 'center'
+			},{
+				field: 'install_status',
+				title: '安装状态',
+				visible: false,
+				//sortable: true,
+				editable: true,
+				align: 'center'
+			}, {
+				field: 'op',
+				title: '操作',
+				editable: true,
+				formatter: oper,
+				align: 'lists'
+			}],
+			url: 'lists',
+			//url: 'http://www.app.com/ss.txt',
+			//data: [{"name":"20160524163020.sql","time":"2016-05-24 16:30:20","size":"14.05KB"},{"name":"20160524163619.sql","time":"2016-05-2416:36:19","size":"14.05KB"},{"name":"20160524165738.sql","time":"2016-05-24 16:57:38","size":"14.05KB"}]
+		});
+
+		function oper(value, row, index) {
+			var instatus=row.install_status;
+			var plug = row.name;
+			var opdata = '';
+			if(instatus == false){
+				opdata += '<button style="margin-right: 5px" type="button" class="btn btn-xs btn-info" onclick="set(\'install\',\'' + plug + '\')">安装</button>';
+			}else{
+//				opdata += '<button style="margin-right: 5px" type="button" class="btn btn-xs btn-danger" onclick="set(\'del\',\'' + plug + '\')">删除</button>';
+                opdata += '已安装';
+			}
+			
+			
+			return opdata;
+		}
+
+		function vid(value, row, index) {
+			
+			return index;
+		}
+	});
+
+    function set(fns,plug){
+		var $table = $('#tables');
+		$.get("{:URL('admin/Plug/installAddon')}", {
+			set: fns,
+			name: plug,
+		}, function(response) {
+			$table.bootstrapTable('refresh', {silent: true});
+			if (response) {					
+				layer.msg(response);
+			}
+		});
+	}
+
+	function mes(res) {        
+       layer.msg(res,{
+            time: 1000,});
+       }
+</script>
+{/block}

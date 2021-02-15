@@ -1,0 +1,160 @@
+{include file="public/header" /}
+<div class="focusbox">
+	<div class="container">
+		<h3 class="focusbox-title">{$indexdb['banner']['title']}</h3>
+		<div class="focusbox-text">{$indexdb['banner']['content']}</div>
+	</div>
+</div>
+<div class="home-firstitems">
+	<!--<div class="container">
+		<ul>									
+			<li>
+				<a target="_blank" href="{$cservice}">
+					<i class="fa fa-database"></i>
+					<strong>服务器环境安装</strong>
+					<p>PHP、MYSQL、服务器环境搭建</p>
+					<span class="btn btn-primary">提交请求				
+					</span>
+				</a>
+			</li>
+			<li>
+				<a target="_blank" href="{$cservice}">
+					<i class="fa fa-html5"></i>
+					<strong>WEB</strong>
+					<p>人工设计网站简易美观</p>
+					<span class="btn btn-primary">提交需求</span>
+				</a>
+			</li>
+			<li>
+				<a target="_blank" href="{$cservice}">
+					<i class="fa fa-android"></i>
+					<strong>APP</strong>
+					<p>专业APP程序设计开发</p>
+					<span class="btn btn-primary">提交需求</span>
+				</a>
+			</li>
+			<li>
+				<a target="_blank" href="{$cservice}">
+					<i class="fa fa-paypal"></i>
+					<strong>支付系统</strong>
+					<p>支付平台系统接入PAY</p>
+					<span class="btn btn-primary">提交需求</span>
+				</a>
+			</li>
+		</ul>
+	</div>-->
+</div>
+
+<div class="home-box home-news">
+	<div class="container">
+		<h2>{$Think.config.glogal_config.site_name}动态</h2>
+		<h3>汇聚本站所有最新应用</h3>
+		<ul>
+			
+			{volist name="goods" id="vo"}
+            <li>
+				<a href="{:URL('app/Goods/index',['id'=>$vo.goods_id])}" title="{$vo.title}">
+					{if condition="$vo.expimg == null"}
+					<img src="__PUBLIC__/static/images/tsimg/{$vo.simgs}" class="thumb" alt="{$vo.title}">
+					{else /}
+					<img src="__PUBLIC__{$vo.expimg}" class="thumb" alt="{$vo.title}">
+					{/if}
+					
+					<h4 style=" text-align:center;">{$vo.title}</h4>
+				</a>
+				<div class="note">{$vo.stitle}</div>
+			</li>                     
+            {/volist}
+			
+		</ul>
+	</div>	
+</div>
+
+<section class="container">
+	<div class="content-wrap">
+		<div class="content">
+			<div class="excerpts">
+				{volist name="arrys" id="vo"}
+				<article class="excerpt">
+					<a class="focus" href="{$vo.urls}">
+						{if condition="$vo.thumb_img == null"}
+						<img src="__PUBLIC__/static/images/tsimg/{$vo.simgs}" class="thumb" alt="{$vo.keyword}">
+						{else /}
+						<img src="__PUBLIC__{$vo.thumb_img}" class="thumb" alt="{$vo.keyword}">
+						{/if}
+						
+						
+					</a>
+					<div class="meta">
+						<a class="meta-cat" href="{$vo.sort_url}">{$vo.sort_name}</a>
+						<time>{$vo.add_time}</time>
+						<span>阅读({$vo.post_num})</span>
+					</div>
+					<h2><a href="{$vo.urls}" title="{$vo.title}">{$vo.title}</a></h2>
+					<div class="note">{$vo.keyword}</div>
+				</article>
+				{/volist}
+												
+			</div>
+			<!--<div class="pagination">
+				<ul>
+					<li class="active"><span>1</span></li>
+					<li>
+						<a href="https://themebetter.com/page-2">2</a>
+					</li>
+					<li>
+						<a href="https://themebetter.com/page-3">3</a>
+					</li>
+					<li>
+						<a href="https://themebetter.com/page-4">4</a>
+					</li>
+					<li><span> ... </span></li>
+					<li class="next-page">
+						<a href="https://themebetter.com/page-2">下一页</a>
+					</li>
+					<li><span>共 11 页</span></li>
+				</ul>
+			</div>-->
+		</div>
+	</div>
+	<div class="sidebar sidebar-index">
+		<div class="widget widget-workorder">
+			<h2><i class="fa"></i>{$indexdb['service']['title']}</h2>
+			{$indexdb['service']['content']}
+			<a class="btn btn-primary" href="{$indexdb['service']['url']}" target="_blank">联系客服</a>
+		</div>
+
+		<!--<div class="widget widget_ui_posts">-->
+			<!--<h3>网站公告</h3>-->
+			<!--<ul>
+				<li>
+					<a class="thumbnail" href="https://themebetter.com/tb-wxpay.html"><img src="https://themebetter.com/uploads/2016/05/wxpay.png" class="thumb" alt="themebetter 开启微信支付，爽翻你的支付体验_themebetter"></a>
+					<a href="https://themebetter.com/tb-wxpay.html">themebetter 开启微信支付，爽翻你的支付体验</a>
+				</li>
+				<li>
+					<a class="thumbnail" href="https://themebetter.com/tb-comment.html"><img src="https://themebetter.com/uploads/2016/05/comment.jpg" class="thumb" alt="themebetter 开启文章评论功能，需要登录才能发表看法_themebetter"></a>
+					<a href="https://themebetter.com/tb-comment.html">themebetter 开启文章评论功能，需要登录才能发表看法</a>
+				</li>
+				<li>
+					<a class="thumbnail" href="https://themebetter.com/tb-service-items.html"><img src="https://themebetter.com/uploads/2016/04/fuwu.jpg" class="thumb" alt="themebetter付费服务上线仅一周，服务已超百单_themebetter"></a>
+					<a href="https://themebetter.com/tb-service-items.html">themebetter付费服务上线仅一周，服务已超百单</a>
+				</li>
+				<li>
+					<a class="thumbnail" href="https://themebetter.com/tb-nav.html"><img src="https://themebetter.com/uploads/2016/03/hezuo.jpg" class="thumb" alt="博客导航上线，为了更好的服务广大主题用户_themebetter"></a>
+					<a href="https://themebetter.com/tb-nav.html">博客导航上线，为了更好的服务广大主题用户</a>
+				</li>
+			</ul>-->
+		<!--</div>-->
+
+		<!--<div class="widget widget_uis">
+			<a href="https://s.click.taobao.com/t?e=m%3D2%26s%3Dkr2Nw9b3I04cQipKwQzePCperVdZeJviEViQ0P1Vf2kguMN8XjClAmQ6JHdnGUKaD1T1xKbHNhQ224abtBd47OrpJ5C0sDS5j7OotfTSvdoEK08Ctmo9qTDVuRn8ddiDsEVVC24eqozO54LQ%2FVw1L9X5LHh3Z8M%2BWS6ALZVeqlk9XUfbPSJC%2F06deTzTIbffYpyF7ku%2BxKguktBpDNMjUsC9aO5Uou70LpxQX9cCZ6Y%3D" target="_blank"><img src="https://themebetter.com/uploads/2016/12/320-427.jpg"></a>
+		</div>-->
+
+	</div>
+</section>
+
+
+	
+
+
+{include file="public/flooter" /}

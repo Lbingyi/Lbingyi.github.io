@@ -1,0 +1,178 @@
+{extend name="public/base" /}
+{block name="title"}角色管理{/block}
+{block name="css"}
+<link rel="stylesheet" type="text/css" href="__PLUG__/bootstrap-table/bootstrap-table.css"/>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/static/css/table.css"/>
+{css href="__PUBLIC__/static/css/table.css" /}
+{/block}
+{block name="js"}
+<script src="__PLUG__/bootstrap-table/bootstrap-table.min.js"></script>
+<script src="__PLUG__/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+<script src="__PLUG__/layer/layer.js"></script>
+{js href="__PLUG__/bootstrap-table/extensions/export/bootstrap-table-export.js" /}
+{js href="__PLUG__/bootstrap-table/extensions/export/tableExport.js" /}
+{/block}
+{block name="style"}{/block}
+{block name="body"}
+<div class="right-product view-product right-full">
+	<div class="container-fluid">
+		<div class="message-manage info-center">
+			<div class="page-header">
+				<div class="pull-left">
+					<h4>角色管理</h4>
+				</div>
+			</div>
+			<div class="manage-detail">
+				<h6 class="h5">角色管理</h6>
+				
+				<div id="toolbar">
+				<a role="button" href="{:URL('admin/Role/add')}" type="button" class="btn btn-primary">添加用户组</a>
+			</div>
+			<div class="table-responsive" data-show-refresh="true">
+				<table id="table">
+				</table>
+			</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+{/block}
+{block name="script"}
+<script type="text/javascript">
+    var $table = $('#table');
+    $(document).ready(function() {    	
+		$('#addsort').click(function() {
+			var str_data = $(".formsort").serialize();
+			$.ajax({
+				type: "get",
+				url: "addsort",
+				data: str_data,
+				success: function(msg) {					
+					layer.alert(msg);
+					retable();
+				}
+			});
+			return false;
+		});		
+	});
+    
+    
+	$(document).ready(function() {		
+		$table.bootstrapTable({
+			classes: 'table',
+			paginationPreText: '上一页',
+			paginationNextText: '下一页',
+			pageSize:10,
+			pagination: true,			
+			searchOnEnterKey: true,
+			showColumns: false,
+			showRefresh: false,
+			showToggle: false,
+			showPaginationSwitch: false,
+			idField: 'uid',
+			showexport: true,
+			uniqueId: 'uid',
+			toolbar: '#toolbar',			
+			sidePagination: 'server',
+			url: "{:URL('admin/Role/lists')}",
+			columns: [{
+				field: 'id',
+				title: 'ID',
+				visible:true,
+				align: 'left'
+			}, {
+				field: 'title',
+				title: '角色',
+				editable: true,				
+				align: 'left'
+			},{
+				field: 'description',
+				title: '说明',
+				editable: true,
+				align: 'center'
+			},{
+				field: 'status',
+				title: '状态',
+				editable: true,
+				formatter: statu,
+				align: 'center'
+			},{
+				field: 'op',
+				title: '操作',				
+				editable: true,
+				formatter: oper,
+				align: 'center'
+			},],
+		});
+
+		function oper(value, row, index) {			
+			
+			var gid = row.id;
+			var status=row.status;			
+			var opdata = '<a href="{:URL(\'admin/Role/edit\')}?group_id=' + gid +'" title="设置" role="button" style="margin-right: 5px" type="button" class="btn btn-xs btn-icon"><i class="fa fa-cog"></i></a>';
+			    if (status!=0) {
+			    	opdata += '<div style="margin-right: 5px" type="button" title="停用" class="btn btn-xs btn-on" onclick="gset(\'stop\',\'' + gid + '\')"><i class="fa fa-toggle-on"></i></div>';			    	
+			    } else{
+			    	opdata += '<div style="margin-right: 5px" type="button" title="启用" class="btn btn-xs btn-off" onclick="gset(\'start\',\'' + gid + '\')"><i class="fa fa-toggle-off"></i></div>';			    	
+			    }
+				opdata += '<div style="margin-right: 5px" type="button" class="btn btn-xs btn-del" onclick="gset(\'del\',\'' + gid + '\')"><i class="fa fa-trash"></i></div>';			    	
+
+			
+			return opdata;
+		}
+        
+		function statu(value, row, index) {
+			var index = '<span>已启用</span>';
+			if(value < 1){
+				index = '<span style="color:#CC0000">已停用</span>';
+			}
+			return index;
+		}
+	});
+
+	function gset(sets,gid) {
+		var $table = $('#table');
+		if(sets=='stop' || sets=='start'){						
+			$.get("{:URL('admin/Role/set')}", {
+				gset: sets,
+				gid: gid,
+			}, function(response) {
+				//$table.bootstrapTable('removeByUniqueId', uid);//
+				$table.bootstrapTable('refresh', {silent: true});
+				if (response) {					
+					layer.msg(response);
+				} else {
+                    layer.alert('操作失败！请重试！');					
+				}
+			});			
+		}
+		if(sets=='del'){
+			layer.confirm('<i style="color:#FF6633" class="icon-warning-sign icon-2x"></i> 是否删除?', {
+                btn: ['确定','取消'] //按钮
+            }, function(){
+            	delsort(gid);           
+            }, function(){           	
+            });
+		}	
+	}
+    function delsort(gid){
+		var $table = $('#table');
+		$.get("{:URL('admin/Role/set')}", {
+			gset: 'del',
+			gid: gid,
+		}, function(response) {
+			$table.bootstrapTable('refresh', {silent: true});
+			if (response) {					
+				layer.msg(response);
+			} else {
+                layer.alert('操作失败！请重试！');					
+			}
+		});
+	}
+    function retable(index, layero){
+    	$table.bootstrapTable('refresh', {silent: true});
+    }
+</script>
+
+{/block}

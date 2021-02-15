@@ -1,0 +1,70 @@
+{extend name="public/base" /}
+{block name="title"}代理信息{/block}
+{block name="css"}
+<link rel="stylesheet" type="text/css" href="__PLUG__/bootstrap-table/bootstrap-table.css"/>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/static/css/table.css"/>
+{css href="__PUBLIC__/static/css/table.css" /}
+{/block}
+{block name="js"}
+<script src="__PLUG__/bootstrap-table/bootstrap-table.min.js"></script>
+<script src="__PLUG__/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+<script src="__PLUG__/layer/layer.js"></script>
+{js href="__PLUG__/bootstrap-table/extensions/export/bootstrap-table-export.js" /}
+{js href="__PLUG__/bootstrap-table/extensions/export/tableExport.js" /}
+{/block}
+{block name="style"}{/block}
+{block name="body"}
+<div class="right-product view-product right-full">
+	<div class="container-fluid">
+		<div class="message-manage info-center">
+			<div class="page-header">
+				<div class="pull-left">
+					<h4>代理信息</h4>
+				</div>
+			</div>
+			<div class="manage-detail">
+				<h6 class="h5"></h6>
+				<div class="row">
+					<div class="col-md-2">
+						<div class="thumbnail">
+							<img style="border-radius: 40px;" src="__PUBLIC__/static/images/user.png" width="80px" height="80px" alt="...">
+							<div class="caption">
+								<h4><small>用户:{$Think.session.user.username}</small></h4>
+								<p>代理类型：{$agenttype['name']}</p>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-3">
+						<div class="">
+							<h5><small class="col-md-4 text-right">申请时间 : </small><span>{$agentsdb['add_time']}</span></h5>
+							<h5><small class="col-md-4 text-right">代理软件 :</small><span class="text-primary">
+							{volist name="goodsdb" id="vo"}
+                            {$vo.title},
+                            {/volist}
+						</span>
+						</h5>
+							<h5><small class="col-md-4 text-right">消费积分 : </small><span class="text-danger">{$agentsdb['conscore']}</span></h5>
+							<h5><small class="col-md-4 text-right">可用积分 : </small><span class="text-warning">{$userdb['score']}</span></h5>
+							<h5><small class="col-md-4 text-right">受权卡 : </small><span class="text-info">{$acardun}/{$acard}</span></h5>
+							<h5><small class="col-md-4 text-right">充值卡 : </small><span class="text-info">{$cardun}/{$card}</span></h5>
+							<div class="col-md-6 text-right">
+								<a href="{:URL('home/Score/index')}" target="_blank" type="submit" class="btn btn-danger" id="setscore">积分充值</a>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-5">
+						<div class="">
+							<h5><small class="col-md-5 text-right">上次登录 : </small><span>{$userdb['logintime']}</span></h5>
+							<h5><small class="col-md-5 text-right">上次登录IP :</small><span>{$userdb['loginip']}</span></h5>
+							<h5><small class="col-md-5 text-right">登录次数 : </small><span>{$userdb['logincount']}</span></h5>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{/block}
+{block name="script"}
+{/block}

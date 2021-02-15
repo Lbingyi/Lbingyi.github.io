@@ -1,0 +1,62 @@
+body {
+    font-family: "Helvetica Neue", Helvetica, Arial, "Microsoft Yahei", "Hiragino Sans GB", "Heiti SC", "WenQuanYi Micro Hei", sans-serif;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: #55595c;
+    background-color: #eaeaea;
+}
+.focusbox {
+    text-align: center;
+    background-color: #384047;
+    color: #eee;
+    padding: 50px 0;
+    margin-top: 85px;
+    -webkit-transition: all .3s ease-in-out;
+    -moz-transition: all .3s ease-in-out;
+    transition: all .3s ease-in-out;
+}
+.focusbox .container {
+    text-align: center;
+}
+
+.focusbox .focusbox-title {
+    font-weight: normal;
+    font-size: 21px;
+    margin: 0;
+}
+.focusbox .focusbox-title+.focusbox-text {
+    margin-top: 4.5px;
+}
+
+.focusbox .focusbox-text {
+    color: #999;
+}
+.sidebar{
+	margin-top: 38px;
+}
+.sidebar-index{
+	margin-top: 0px;
+}
+.sign-container{
+	text-align: center;
+}
+.title{
+    line-height: 60px;
+    margin: 50px 16px;
+    font-size: 35px;
+    font-weight: 100;
+    text-align: center;
+    letter-spacing: 5px;
+    color: #666;
+
+}
+.footer-logo,.footer-navs,.footer-links,.footer-copyright,.footer-logo>a,.footer-navs>a,.footer-links>a,.footer-copyright >a{
+	    color: #999 !important;
+}
+.theme-container h2::after {
+
+    background-color: #FFFFFF;
+
+}
+
+
