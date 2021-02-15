@@ -1,0 +1,137 @@
+.help_list:nth-child(2){margin-left: 20px}
+.main1 .line2{ width:828px; height:3px;background: url("img/line.png") no-repeat left; top: 106px; left: 50%;margin-left: -414px }
+.main1 .line1{ width:828px; height:3px;background: url("img/line.png") no-repeat right;  top: 320px; left: 50%;margin-left: -414px}
+.main1 p{ position: absolute}
+.main1 .p{ width: 810px;
+    height: 30px;
+    background: url("img/line1.png") no-repeat center;
+    position: absolute;
+    top:132px; left: 50%;
+    margin-left: -405px;
+    font-size:18px;
+    color:#dfe3ea;
+    line-height: 30px;
+    text-align: center;
+}
+.main1 .p1,.p2,.p3 a{color:#64bfff; font-size:24px;top:275px;left: 50% }
+.main1 .p1{  width: 240px;margin-left: -120px}
+.main1 .p2{  left:689px;}
+.main1 .main1-two{ width: 814px; height: 91px;background: url("img/ziti.png") no-repeat center;top: 165px; left:50%;margin-left: -407px}
+.main1 .main1-one{
+    width:288px;
+    height: 68px;
+    left:50%;
+    margin-left: -144px;
+    top:390px;
+    z-index: 15;
+    transition-duration:0.5s;
+    background-color: #21b4ff;
+    border-radius: 36px;
+    text-align: center;
+    line-height: 66px;
+    font-size: 32px;
+    color: #fff;
+}
+.help_banner i{margin: 0}
+#center_ly{margin-left: 80px}
+
+
+/*.vbc_tj{*/
+    /*position: absolute;*/
+    /*left: 120px;*/
+    /*top: -14px;*/
+    /*width: 45px;*/
+    /*height: 30px;*/
+    /*background: url(img/vip/hd.png) no-repeat center;*/
+    /*animation: S 1.5s infinite;*/
+/*}*/
+
+
+
+
+
+
+
+@media screen and (max-width: 1024px) {
+    .pay_list,.vc_content{width: initial;}
+    .vc_fl{background-position: left}
+    .reg_content>img{width: 100%}
+    .main .main1{width: 100%}
+    .w1200,.index_news .w1200{width: 100%;box-sizing: border-box;padding: 0 15px;}
+    .head .nav a{margin-left: 20px}
+    .in_left{display: none}
+    .in_right{float: none}
+    .in_right dl{width: 50%;box-sizing: border-box;margin-right: 0;float: none;display: inline-block}
+    .in_right dl:first-child{margin-right: 0;}
+    .in_right dl:last-child{margin-left: -5px}
+    .footer{height: 205px}
+    .f_left{width: 500px}
+    .first_ani{margin-left: 0}
+    .two_text{margin-left: 30px}
+
+    /*套餐页面*/
+    .cz_list li,.cz_list li.cz_hot{width: 25%;box-sizing: border-box}
+    .cz_list li:first-child{margin-left: 0}
+    .cz_list>i{width: 100%;margin: 0}
+    .d_text{margin-right: 0}
+    .help_list{width: 30%;margin-left: 5%}
+    .help_list:nth-child(2){margin-left: 0}
+    .help_qq,.help_qqq,.help_wechat{width: 33%;box-sizing: border-box}
+    .login-content{width: 100%}
+
+
+    .vite_img{width: 100%}
+    .vite_img dl{left: inherit;right: 0;}
+    .vc_left{width: 40%;}
+    .vc_href input{width: 100%}
+    .vc_right{width: 50%;margin:0 5%}
+    .vc_right div.l,.vc_right div.r{width: 50%;box-sizing: border-box}
+    .vc_table,.vc_table table{width: 100%}
+
+    .vci_left{width: 50%}
+    .vc_download a{width: 50%;box-sizing: border-box}
+
+    .login-title,#reg{width: 100%}
+    #center_ly{margin-left: 0}
+}
+
+/*@media screen and (max-width: 768px) {*/
+/*.first_ani{width: 320px;}*/
+/*.head{border-bottom:1px solid #eee}*/
+/*.head .w1200{position: relative;background: #fff}*/
+/*.mobile_href{*/
+/*display: block;*/
+/*float: right;*/
+/*width: 50px;*/
+/*height: 50px;*/
+/*background: url("/Statics/style/menu1.png") no-repeat center;*/
+/*background-color: #64bfff;*/
+/*position: absolute;*/
+/*right: 20px;*/
+/*top: 18px;*/
+/*}*/
+/*.three_ani,.two_text{margin-left: 0}*/
+/*.two_ani{margin-right: 0}*/
+/*.head .nav,.head .head_login{display: none}*/
+/*.f_right{display: none}*/
+/*.f_left{width: 100%}*/
+/*.head .nav{*/
+/*position: absolute;*/
+/*top:87px;*/
+/*left: 0;*/
+/*margin-left: 0;*/
+/*width: 100%;*/
+/*background-color: #FFF;*/
+/*}*/
+/*.head_login{*/
+/*position: absolute;*/
+/*top:240px;*/
+/*left: 0;*/
+/*display: block;*/
+/*width: 100%;*/
+/*background-color: #FFF;*/
+/*padding-bottom: 20px;*/
+/*}*/
+/*.hl_href{width: 220px;margin: 0 auto}*/
+/*.head .nav a{display: block;width: 100%;margin: 0;height: 40px;line-height: 40px}*/
+/*}*/
